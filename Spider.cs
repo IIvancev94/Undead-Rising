@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEditor;
 using UnityEngine;
 
-public class MossGiant : Enemy
+public class Spider : Enemy
 {
-    public int height;
     public override void Init()
     {
         base.Init();

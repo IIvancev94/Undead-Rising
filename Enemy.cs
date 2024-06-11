@@ -8,11 +8,51 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int speed;
     [SerializeField] protected int gems;
     [SerializeField] protected Transform pointA, pointB;
-
-    public virtual void Attack()
+    protected Vector3 currentTarget;
+    protected Animator anim;
+    protected SpriteRenderer sprite;
+    public virtual void Init()
     {
-        Debug.Log("Enemy Attack");
+        anim = GetComponentInChildren<Animator>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
-    public abstract void Update();
+    void Start()
+    {
+        Init();
+    }
+
+    public virtual void Update()
+    {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        {
+            return;
+        }
+
+        Movement();
+    }
+    public virtual void Movement()
+        {
+            
+        if (currentTarget == pointA.position)
+        {
+            sprite.flipX = false;
+        }
+        else if (currentTarget == pointB.position)
+        {
+            sprite.flipX = true;
+        }
+
+        if (transform.position == pointA.position)
+        {
+            currentTarget = pointB.position;
+            anim.SetTrigger("Idle");
+        }
+        else if (transform.position == pointB.position)
+        {
+            currentTarget = pointA.position;
+            anim.SetTrigger("Idle");
+        }
+        transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+    }
 }
