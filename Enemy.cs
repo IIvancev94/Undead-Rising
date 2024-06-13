@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected int health;
-    [SerializeField] protected int speed;
+    [SerializeField] protected float speed;
     [SerializeField] protected int gems;
     [SerializeField] protected Transform pointA, pointB;
     protected Vector3 currentTarget;
@@ -47,11 +47,15 @@ public abstract class Enemy : MonoBehaviour
         {
             currentTarget = pointB.position;
             anim.SetTrigger("Idle");
+            Time.timeScale = 1;
+
         }
         else if (transform.position == pointB.position)
         {
             currentTarget = pointA.position;
             anim.SetTrigger("Idle");
+            Time.timeScale = 1;
+
         }
         transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
     }
